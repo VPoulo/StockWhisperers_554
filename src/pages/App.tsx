@@ -9,8 +9,12 @@ function App() {
       <header className="App-header">
         <div className="flex justify-center ">
           <img src={logo} className="App-logo" alt="logo" />
-          <span className="text-[200px] Chart-Emoji">📈</span>
+          <span className="Chart-Emoji">
+            <span className="text-[200px]">📈</span>
+            <div className="text-xs -mt-10">(hover over me!)</div>
+          </span>
         </div>
+
         <HelloWorld />
       </header>
     </div>
