@@ -7,7 +7,7 @@ interface ButtonProps {
 export const SWButton = (props: ButtonProps) => {
   return (
     <button className={props.className} id={props.id}>
-      {props.text}
+      <div className="-mt-1">{props.text}</div>
     </button>
   );
 };
