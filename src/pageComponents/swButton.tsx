@@ -1,13 +1,26 @@
 interface ButtonProps {
+  buttonText: string;
+  onUpdate?: (data: string) => void;
   className?: string;
   id?: string;
-  text?: string;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
-export const SWButton = (props: ButtonProps) => {
+export const SWButton = ({
+  buttonText,
+  onUpdate,
+  className,
+  id,
+  type,
+}: ButtonProps) => {
+  const handleClick = () => {
+    if (onUpdate) {
+      onUpdate(buttonText);
+    }
+  };
   return (
-    <button className={props.className} id={props.id}>
-      <div className="-mt-1">{props.text}</div>
+    <button className={className} id={id} onClick={handleClick} type={type}>
+      <div className="-mt-1">{buttonText}</div>
     </button>
   );
 };
