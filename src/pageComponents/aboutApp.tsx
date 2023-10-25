@@ -6,7 +6,7 @@ export const AboutApp = () => {
       </p>
       <p className="max-w-md mt-3 text-center">
         <span className="italic">Stock Whisperers</span> allows you to receive
-        daily updates of any particular based on a target price of your choice.
+        updates of any particular stock based on a target price of your choice.
         <br />
         <br />
         That price can be either be buy or sell, and once your stock hits the
