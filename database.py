@@ -4,13 +4,13 @@
 import requests
 import pandas as pd
 
-API_KEY = "8FEghfdkqaH3lQ923eyGZewt5Upf7eqC"
+__API_KEY = "8FEghfdkqaH3lQ923eyGZewt5Upf7eqC"
 __STOCK_FILE = "./database/stocks.csv"  # Currently holds stock data
 __USER_FILE = "./database/users.csv"  # Currently holds user data
 
 def getStockDaily():
 
-    url = f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-09?adjusted=true&apiKey={API_KEY}"
+    url = f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-09?adjusted=true&apiKey={__API_KEY}"
     # Make a GET request to the API and fetch the data
     response = requests.get(url)
 
