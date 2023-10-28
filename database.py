@@ -5,10 +5,10 @@ import requests
 import pandas as pd
 
 API_KEY = "8FEghfdkqaH3lQ923eyGZewt5Upf7eqC"
-stockFile = "database/stocks.csv"  # Currently holds stock data
-userFile = "database/users.csv"  # Currently holds user data
+__STOCK_FILE = "./database/stocks.csv"  # Currently holds stock data
+__USER_FILE = "./database/users.csv"  # Currently holds user data
 
-def getStockDaily(API_KEY, stockFile):
+def getStockDaily():
 
     url = f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2023-01-09?adjusted=true&apiKey={API_KEY}"
     # Make a GET request to the API and fetch the data
@@ -17,17 +17,17 @@ def getStockDaily(API_KEY, stockFile):
     if response.status_code == 200:
         data = response.json()
         df = pd.DataFrame(data['results'])
-        df.to_csv(stockFile, index=False)
-        print(f"Data saved successfully to {stockFile}")
+        df.to_csv(__STOCK_FILE, index=False)
+        print(f"Data saved successfully to {__STOCK_FILE}")
     else:
         print(f"Request failed with status code {response.status_code}")
 
-def getAllUsers(userFile):
-    user = pd.read_csv(userFile, delimiter=',')
+def getAllUsers():
+    user = pd.read_csv(__USER_FILE, delimiter=',')
 
     print(user)
 
 if __name__ == "__main__":
 
-    getStockDaily(API_KEY, stockFile)
-    getAllUsers(userFile)
+    getStockDaily()
+    getAllUsers()
