@@ -5,8 +5,8 @@ import requests
 import pandas as pd
 
 API_KEY = "8FEghfdkqaH3lQ923eyGZewt5Upf7eqC"
-stockFile = "stocks"  # Currently holds stock data
-userFile = "user.csv"  # Currently holds user data
+stockFile = "database/stocks.csv"  # Currently holds stock data
+userFile = "database/users.csv"  # Currently holds user data
 
 def getStockDaily(API_KEY, stockFile):
 
@@ -17,8 +17,8 @@ def getStockDaily(API_KEY, stockFile):
     if response.status_code == 200:
         data = response.json()
         df = pd.DataFrame(data['results'])
-        df.to_csv(f"{stockFile}_stock_data.csv", index=False)
-        print(f"Data saved successfully to {stockFile}.csv")
+        df.to_csv(stockFile, index=False)
+        print(f"Data saved successfully to {stockFile}")
     else:
         print(f"Request failed with status code {response.status_code}")
 
