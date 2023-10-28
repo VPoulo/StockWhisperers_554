@@ -1,4 +1,6 @@
 #This class manages the database interactions that stores 1) User data and 2)Stock information.
+#Current stock database includes daily T:ticker, c:close, h:high, l:low, n:num of transact, 
+# o:open, t:timestamp, v:volume, vw:vol weighted avg price
 import requests
 import pandas as pd
 
@@ -27,4 +29,5 @@ def getAllUsers(userFile):
 
 if __name__ == "__main__":
 
-    getStockDaily(API_KEY, filename)
+    getStockDaily(API_KEY, stockFile)
+    getAllUsers(userFile)
