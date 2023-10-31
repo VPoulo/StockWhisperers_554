@@ -37,8 +37,6 @@ def sendEmail(recipientInfo):
         price = recipientInfo[3]
         body = f'Hello {name}, \n We are pleased to inform you that {ticker} has reached your target price of ${price}!'\
             '\n Woohoo!! \n Best, Stock Whisperers'
-
-        print(body)
         
         # Create email message package
         em = EmailMessage()
