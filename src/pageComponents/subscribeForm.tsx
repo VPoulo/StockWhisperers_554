@@ -18,16 +18,48 @@ export const SubscribeForm = () => {
   return (
     <>
       <form action="">
-        <div className="flex justify-center mx-4 mt-5">
+        <div className="flex justify-center mt-8">
+          <div>
+            <input
+              className="mr-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none
+                  text-black"
+              placeholder="Name"
+              type="text"
+              name="name"
+              required
+            />
+            <p className="text-left ml-4">
+              <span className="text-left text-red-500">*</span>Required
+            </p>
+          </div>
+          <div>
+            <input
+              className="ml-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none 
+                  text-black"
+              placeholder="Email Address"
+              type="email"
+              name="email"
+              required
+            />
+            <p className="text-left ml-4">
+              <span className="text-left text-red-500">*</span>Required
+            </p>
+          </div>
+        </div>
+        <div className="mx-4 mt-5">
           <input
             className="mt-5 w-auto min-w-[435px] rounded-lg p-3 outline-none
             text-black"
             name="stockTicker"
             type="text"
             placeholder="Enter stock ticker (APPL, NVDA, etc.)"
+            required
           />
+          <p className="text-left ml-12">
+            <span className="text-red-500">*</span>Required
+          </p>
         </div>
-        <div className="flex justify-center mt-2">
+        <div className="flex justify-center mt-5">
           <SWButton
             onUpdate={updateParentState}
             buttonText={buy}
@@ -49,56 +81,29 @@ export const SubscribeForm = () => {
             type="button"
           />
         </div>
-        {activeOption !== "Reset" && (
-          <>
-            <div className="flex justify-center mx-4 mt-5">
-              <input
-                className="mt-5 w-auto min-w-[100px] rounded-lg p-3 outline-none
+        <div className="flex justify-center -ml-9 mt-5">
+          <div className="text-5xl mr-4">$</div>
+          <input
+            className="-ml-1 mt-1.5 w-auto min-w-[100px] rounded-lg p-3 outline-none
               text-black"
-                name="stockTicker"
-                type="number"
-                min={0}
-                placeholder="Enter target price"
-              />
-            </div>
-            <div className="flex justify-center mt-8">
-              <div>
-                <input
-                  className="mr-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none
-                  text-black"
-                  placeholder="Name"
-                  type="text"
-                  name="name"
-                  required
-                />
-                <p className="text-left ml-4">
-                  <span className="text-left text-red-500">*</span>Required
-                </p>
-              </div>
-              <div>
-                <input
-                  className="ml-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none 
-                  text-black"
-                  placeholder="Email Address"
-                  type="email"
-                  name="email"
-                  required
-                />
-                <p className="text-left ml-4">
-                  <span className="text-left text-red-500">*</span>Required
-                </p>
-              </div>
-            </div>
-            <div className="flex"></div>
-            <div className="mt-4">
-              <SWButton
-                type="submit"
-                buttonText="Submit"
-                className="SW-Button mx-4 min-w-[150px]"
-              />
-            </div>
-          </>
-        )}
+            name="stockTicker"
+            type="number"
+            min={0}
+            placeholder="Enter target price"
+            required
+          />
+        </div>
+        <p className="mr-24">
+          <span className="text-red-500">*</span>Required
+        </p>
+        <div className="flex"></div>
+        <div className="mt-4">
+          <SWButton
+            type="submit"
+            buttonText="Submit"
+            className="SW-Button mx-4 min-w-[150px]"
+          />
+        </div>
       </form>
     </>
   );

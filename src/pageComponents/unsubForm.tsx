@@ -22,8 +22,12 @@ export const UnsubForm = () => {
           name="stockTicker"
           type="text"
           placeholder="Enter stock ticker (APPL, NVDA, etc.)"
+          required
         />
       </div>
+      <p className="text-left ml-10">
+        <span className="text-red-500">*</span>Required
+      </p>
       <div className="mt-4">
         <SWButton
           type="submit"

@@ -14,8 +14,8 @@ export const AboutApp = () => {
         of that stocks closing price of the previous day.
         <br />
         <br />
-        To begin, would you like to schedule a notification for a buy price, or
-        a sell price?
+        To begin, would you like to subscribe or unsubscribe from a stock
+        ticker?
       </p>
     </>
   );
