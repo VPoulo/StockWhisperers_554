@@ -23,18 +23,24 @@ def main():
     with open('info.csv', newline='') as file:
         emailList = csv.reader(file)
         for row in emailList:
-            sendEmail(row)
+            name, email_receiver, ticker, price = parse_file(row)
+            sendEmail(name, email_receiver, ticker, price)
 
-    file.close()
+    file.close()    
+
+
+def parse_file(recipientInfo):
+    name = recipientInfo[0]
+    email_receiver = recipientInfo[1]
+    ticker = recipientInfo[2]
+    price = recipientInfo[3]
+    
+    return name, email_receiver, ticker, price
 
 # Send an email whatever recipient is passed in as an argument. 
 # If an email fails to send, just return. 
-def sendEmail(recipientInfo):
+def sendEmail(name, email_receiver, ticker, price):
     try:
-        name = recipientInfo[0]
-        email_receiver = recipientInfo[1]
-        ticker = recipientInfo[2]
-        price = recipientInfo[3]
         body = f'Hello {name}, \n We are pleased to inform you that {ticker} has reached your target price of ${price}!'\
             '\n Woohoo!! \n Best, Stock Whisperers'
         
