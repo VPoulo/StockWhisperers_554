@@ -1,6 +1,6 @@
 import SWButton from "./swButton";
 
-export const UnsubForm = () => {
+function UnsubForm() {
   return (
     <form action="">
       <div className="mt-4">
@@ -37,6 +37,5 @@ export const UnsubForm = () => {
       </div>
     </form>
   );
-};
-<></>;
+}
 export default UnsubForm;
