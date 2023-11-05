@@ -12,7 +12,7 @@ function SubscribeForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [ticker, setTicker] = useState("");
-  const [buyOrSell, setBuyOrSell] = useState("Reset");
+  const [buyOrSell, setBuyOrSell] = useState("");
   const [targetPrice, setTargetPrice] = useState(0);
 
   const updateParentState = (option: string) => {
@@ -58,7 +58,7 @@ function SubscribeForm() {
 
   return (
     <>
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form noValidate autoComplete="off">
         <div className="flex justify-center mt-8">
           <div>
             <input
