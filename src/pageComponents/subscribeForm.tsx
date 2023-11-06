@@ -3,12 +3,36 @@ import SWButton from "./swButton";
 
 const buy: string = "Buy";
 const sell: string = "Sell";
+const formName = "name";
+const formEmail = "email";
+const formTicker = "ticker";
+const formTargetPrice = "targetPrice";
+
+export const buttonStyleSelector = (buyOrSell: string, toChange: string) => {
+  return buyOrSell === toChange ? "SW-Button-Active " : "SW-Button ";
+};
+
+export const handleInputUpdate = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  inputID: string,
+  setName?: React.Dispatch<React.SetStateAction<string>>,
+  setEmail?: React.Dispatch<React.SetStateAction<string>>,
+  setTicker?: React.Dispatch<React.SetStateAction<string>>,
+  setTargetPrice?: React.Dispatch<React.SetStateAction<number>>
+) => {
+  const updateValue = e.target.value;
+  if (inputID === formName && setName) {
+    setName(updateValue);
+  } else if (inputID === formEmail && setEmail) {
+    setEmail(updateValue);
+  } else if (inputID === formTicker && setTicker) {
+    setTicker(updateValue);
+  } else if (inputID === formTargetPrice && setTargetPrice) {
+    setTargetPrice(parseInt(updateValue, 10));
+  }
+};
 
 function SubscribeForm() {
-  const formName = "name";
-  const formEmail = "email";
-  const formTicker = "ticker";
-  const formTargetPrice = "targetPrice";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [ticker, setTicker] = useState("");
@@ -17,29 +41,6 @@ function SubscribeForm() {
 
   const updateParentState = (option: string) => {
     setBuyOrSell(option);
-  };
-  const buttonStyleSelector = (toChange: string) => {
-    return buyOrSell === toChange ? "SW-Button-Active " : "SW-Button ";
-  };
-
-  const handleInputUpdate = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    inputID: string
-  ) => {
-    const updateValue = e.target.value;
-    if (inputID === formName) {
-      setName(updateValue);
-      console.log("Name: " + updateValue);
-    } else if (inputID === formEmail) {
-      setEmail(updateValue);
-      console.log("Email: " + updateValue);
-    } else if (inputID === formTicker) {
-      setTicker(updateValue);
-      console.log("Ticker: " + updateValue);
-    } else if (inputID === formTargetPrice) {
-      setTargetPrice(parseInt(updateValue, 10));
-      console.log("Target price: " + updateValue + " | " + targetPrice);
-    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +68,7 @@ function SubscribeForm() {
               placeholder="Name"
               type="text"
               name={formName}
-              onChange={(event) => handleInputUpdate(event, formName)}
+              onChange={(event) => handleInputUpdate(event, formName, setName)}
               required
             />
             <p className="text-left ml-4">
@@ -108,7 +109,7 @@ function SubscribeForm() {
             onUpdate={updateParentState}
             buttonText={buy}
             className={
-              buttonStyleSelector(buy) +
+              buttonStyleSelector(buyOrSell, buy) +
               `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out
               duration-300`
             }
@@ -118,7 +119,7 @@ function SubscribeForm() {
             onUpdate={updateParentState}
             buttonText={sell}
             className={
-              buttonStyleSelector(sell) +
+              buttonStyleSelector(buyOrSell, sell) +
               `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out 
               duration-300`
             }
