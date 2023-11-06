@@ -1,6 +1,6 @@
 #This class manages the database interactions that stores 1) User data and 2)Stock information.
-#Current stock database includes daily T:ticker, c:close, h:high, l:low, n:num of transact, 
-# o:open, t:timestamp, v:volume, vw:vol weighted avg price
+#Current stock database includes daily (T,v,vw,o,c,h,l,t,n) T:ticker, v:volume, vw:vol weighted avg price, o:open
+#c:close, h:high, l:low, t:timestamp, n:num of transact, 
 import requests
 import pandas as pd
 import os
@@ -45,7 +45,7 @@ class Database:
 
         if response.status_code == 200:
             data = response.json()
-            self.df_stocks = pd.DataFrame(data['results'])
+            self.df_stocks = pd.DataFrame(data['results'], columns=['T','v','vw','o','c','h','l','t','n'])
             self.df_stocks.to_csv(self.__STOCK_CSV, index=False)
             with open(self.__STOCK_JSON, 'w') as json_file:
                 json.dump(data, json_file, indent=4)
@@ -54,9 +54,18 @@ class Database:
             print(f"Request failed with status code {response.status_code}")
 
     def getUserAction(self, row):
-        self.df_users = pd.read_csv(self.__USER_FILE, delimiter=',')
-        return self.df_users['email'][row], self.df_users['stock'][row], self.df_users['price'][row], self.df_users['action'][row]
+        return self.df_users['name'][row], self.df_users['email'][row], self.df_users['stock'][row], self.df_users['price'][row], self.df_users['action'][row]
+
+    def getStockCsv(self):
+        self.df_stocks = pd.read_csv(self.__STOCK_CSV, delimiter=',')
+        self.df_stocks=self.df_stocks.set_index('T')
+
+    def compareStock(self, ticker, tgt_price, action):
+        self.getStockCsv()
         
+        idx = self.df_stocks.loc[ticker]['c']
+        print(idx)
+
     def stockCompare(self, user_info, stock_info):
         
         if user_info > stock_info:
@@ -70,11 +79,11 @@ class Database:
 
 whisper01 = Database()
 whisper01.extract_api_key()
-email, stock, price, action = whisper01.getUserAction(1)
+name, email, stock, price, action = whisper01.getUserAction(1)
 print(email, stock, price, action)
 
-    # getStockDaily()
-    # getAllUsers()
+whisper01.compareStock(stock, price, action)
+
 
 
 

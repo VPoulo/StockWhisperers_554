@@ -5,11 +5,12 @@ class TestStats(unittest.TestCase):
     
 
     def test_should_give_user_info(self):
+        name = 'Alex Harris'
         email = "aharris@pdx.edu"
         stock = "GOOG"
         price = 150
         action = "sell"
-        self.assertEqual((email, stock, price, action), Database().getUserAction(0))
+        self.assertEqual((name, email, stock, price, action), Database().getUserAction(1))
 
     
 
