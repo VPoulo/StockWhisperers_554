@@ -14,6 +14,7 @@ class Database:
         self.__BASH_PATH = os.path.expanduser('~/.bash_profile')
         self.__STOCK_CSV = "./database/stocks.csv"
         self.__STOCK_JSON = "./database/stocks.json"  # Currently holds stock 
+        self.__NOTIFICATION_CSV="./database/notification.csv"
         self.__API_KEY = ""
         self.df_users = pd.read_csv(self.__USER_FILE, delimiter=',')  
         self.df_stocks = {}     
@@ -66,23 +67,26 @@ class Database:
         
         if action == 'buy':
             if close_price < tgt_price:
-                return True
+                return close_price
         
         elif action == 'sell':
             if close_price > tgt_price:
-                return True
-        return False
+                return close_price
+        return 0
     
     def createDailyEmailList(self):
-        idx_mail = []
+        idx_mail = pd.DataFrame(columns = ['name', 'email', 'stock','close'])
         self.getStockCsv()
         max_user = len(self.df_users)
         for i in range(0, max_user):
             name, email, stock, price, action = self.getUserAction(i)
-            if self.compareStock(stock, price, action) == True:
-                idx_mail.append(i)
+            close = self.compareStock(stock, price, action) != 0
+            if close != 0:
+                df2 = pd.DataFrame([[name, email, stock, close]], columns = ['name', 'email', 'stock', 'close'])
+                idx_mail = pd.concat([idx_mail, df2])
         
-        return idx_mail
+        idx_mail.to_csv(self.__NOTIFICATION_CSV, header=False, index=False)
+        return len(idx_mail)
 
 
 whisper01 = Database()
