@@ -2,22 +2,26 @@ from database import Database
 import unittest
 
 class TestStats(unittest.TestCase):
-    
-
+  
     def test_should_give_user_info(self):
         name = 'Alex Harris'
         email = "aharris@pdx.edu"
-        stock = "GOOG"
-        price = 150
+        stock = "GOOGL"
+        price = 85
         action = "sell"
         self.assertEqual((name, email, stock, price, action), Database().getUserAction(1))
 
-    
+    def test_should_return_num_index(self):
+        ar01 = [0, 1]
+        self.assertEqual(ar01, Database().createDailyEmailList())
 
-    def test_should_return_sell(self):
-        user_info = 300
-        stock_info =156
-        self.assertEqual(True, Database().stockCompare(user_info, stock_info))
+    def test_should_give_action_buy_or_sell(self):
+        stock = "GOOGL"
+        price = 85
+        action = "sell"
+        self.assertEqual(True, Database().compareStock(stock, price, action))        
+
+
     
     
 

@@ -60,29 +60,39 @@ class Database:
         self.df_stocks = pd.read_csv(self.__STOCK_CSV, delimiter=',')
         self.df_stocks=self.df_stocks.set_index('T')
 
-    def compareStock(self, ticker, tgt_price, action):
+    def compareStock(self, ticker, tgt_price, action):      
         self.getStockCsv()
+        close_price = self.df_stocks.loc[ticker]['c']
         
-        idx = self.df_stocks.loc[ticker]['c']
-        print(idx)
-
-    def stockCompare(self, user_info, stock_info):
+        if action == 'buy':
+            if close_price < tgt_price:
+                return True
         
-        if user_info > stock_info:
-            return True
-        else: 
-            return False
+        elif action == 'sell':
+            if close_price > tgt_price:
+                return True
+        return False
+    
+    def createDailyEmailList(self):
+        idx_mail = []
+        self.getStockCsv()
+        max_user = len(self.df_users)
+        for i in range(0, max_user):
+            name, email, stock, price, action = self.getUserAction(i)
+            if self.compareStock(stock, price, action) == True:
+                idx_mail.append(i)
         
-
-        
+        return idx_mail
 
 
 whisper01 = Database()
-whisper01.extract_api_key()
+#whisper01.extract_api_key()
+#whisper01.getStockDaily()
 name, email, stock, price, action = whisper01.getUserAction(1)
-print(email, stock, price, action)
-
 whisper01.compareStock(stock, price, action)
+
+mailing = whisper01.createDailyEmailList()
+print(mailing)
 
 
 
