@@ -21,11 +21,7 @@ class TestStats(unittest.TestCase):
         action = "sell"
         self.assertEqual(88.02, Database().compareStock(stock, price, action))        
 
-
-    
-    
-
-        
+      
         
 if __name__ == '__main__':
     unittest.main()  # pragma: no cover

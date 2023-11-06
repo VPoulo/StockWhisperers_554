@@ -89,14 +89,7 @@ class Database:
         return len(idx_mail)
 
 
-whisper01 = Database()
-#whisper01.extract_api_key()
-#whisper01.getStockDaily()
-name, email, stock, price, action = whisper01.getUserAction(1)
-whisper01.compareStock(stock, price, action)
 
-mailing = whisper01.createDailyEmailList()
-print(mailing)
 
 
 
