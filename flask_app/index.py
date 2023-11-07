@@ -31,7 +31,7 @@ def insert():
         "action": action,
         "price": price,
     }
-    df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
+    df.loc[len(df)] = new_entry
 
     # Save dataframe as CSV by overwriting previous file.
     df.to_csv("../database/users.csv", index=False)
