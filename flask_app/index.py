@@ -13,7 +13,6 @@ def insert():
     ticker = request.json["ticker"]
     action = request.json["action"]
     price = request.json["price"]
-    print(f"{name}, {email}, {ticker}, {action}, {price}")
     # Load file
     df = pd.read_csv("../database/users.csv")
 
