@@ -57,15 +57,16 @@ export const TickerField = ({
   return (
     <div className="mx-4 mt-5">
       <input
-        className="mt-5 w-auto min-w-[435px] rounded-lg p-3 outline-none
-          text-black"
+        className="-ml-1 mt-1.5 py-0.5 max-w-[300px] rounded-lg p-3 
+        outline-none text-black text-3xl text-center uppercase"
         name={formTicker}
         type="text"
-        placeholder="Enter stock ticker (APPL, NVDA, etc.)"
+        placeholder="stock ticker"
         onChange={(event) => handleInputUpdate(event, setTicker)}
+        maxLength={8}
         required
       />
-      <p className="text-left ml-12">
+      <p className="text-left ml-28">
         <span className="text-red-500">*</span>Required
       </p>
     </div>
@@ -115,7 +116,7 @@ export const TargetPrice = ({
       <div className="flex justify-center -ml-9 mt-5">
         <div className="text-5xl mr-4">$</div>
         <input
-          className="-ml-1 mt-1.5 py-0.5 max-w-[200px] rounded-lg p-3 
+          className="-ml-1 mt-1.5 py-0.5 pr-1 max-w-[200px] rounded-lg p-3 
           outline-none text-black text-3xl text-center"
           name={formTargetPrice}
           type="number"
