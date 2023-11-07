@@ -5,9 +5,8 @@ import AboutApp from "src/pageComponents/aboutApp";
 import SubOrUnsub, * as subOrUnsub from "src/pageComponents/subOrUnsub";
 import UnsubForm from "src/pageComponents/unsubForm";
 import SWButton from "src/pageComponents/swButton";
-import SubscribeForm, {
-  handleInputUpdate,
-} from "src/pageComponents/subscribeForm";
+import SubscribeForm from "src/pageComponents/subscribeForm";
+import { handleInputUpdate } from "src/util/util";
 
 test("Renders app without crashing", () => {
   render(<App />);
