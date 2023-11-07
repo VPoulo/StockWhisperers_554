@@ -5,8 +5,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-/* Pop out modal telling sender that their message was not sent
- */
 function SubmitError({ onClose }: { onClose: () => void }) {
   return (
     <Dialog
