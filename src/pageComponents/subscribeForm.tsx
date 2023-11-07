@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SWButton from "./swButton";
-import SubmitError from "./submitError";
 import { validTicker } from "src/util/util";
 import {
   BuySellButtons,
@@ -9,6 +7,9 @@ import {
   TargetPrice,
   TickerField,
 } from "./formFields";
+import SubmitError from "./submitError";
+import SWButton from "./swButton";
+import SubmitSuccess from "./submitSuccess";
 
 function SubscribeForm() {
   const [name, setName] = useState("");
@@ -17,8 +18,11 @@ function SubscribeForm() {
   const [buyOrSell, setBuyOrSell] = useState("");
   const [targetPrice, setTargetPrice] = useState("");
   const [submitError, setSubmitError] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
   const handleOpenSubmitError = () => setSubmitError(true);
   const handleCloseSubmitError = () => setSubmitError(false);
+  const handleOpenSubmitSuccess = () => setSubmitSuccess(true);
+  const handleCloseSubmitSuccess = () => setSubmitSuccess(false);
 
   const formFull = () => {
     if (
@@ -37,15 +41,15 @@ function SubscribeForm() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    if (!formFull() || !validTicker(ticker.toUpperCase())) {
+      handleOpenSubmitError();
+    } else {
+      handleOpenSubmitSuccess();
+    }
   };
 
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!formFull() || !validTicker(ticker)) {
-      handleOpenSubmitError();
-      return;
-    }
     const formEvent = new Event("submit", {
       bubbles: true,
     }) as unknown as React.FormEvent<HTMLFormElement>;
@@ -73,6 +77,9 @@ function SubscribeForm() {
             onClick={handleButtonClick}
           />
           {submitError && <SubmitError onClose={handleCloseSubmitError} />}
+          {submitSuccess && (
+            <SubmitSuccess onClose={handleCloseSubmitSuccess} />
+          )}
         </div>
       </form>
     </>
