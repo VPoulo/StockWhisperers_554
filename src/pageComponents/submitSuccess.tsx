@@ -8,7 +8,7 @@ import {
 function SubmitSuccess({ onClose }: { onClose: () => void }) {
   const handleCloseWithReload = () => {
     onClose();
-    window.location.reload();
+    // window.location.reload();
   };
   return (
     <Dialog
