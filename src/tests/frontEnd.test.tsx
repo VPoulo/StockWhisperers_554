@@ -86,57 +86,11 @@ test("Triggers the form submission when the button is clicked", () => {
 });
 
 test("updates the name when input changes", () => {
-  const setNameMock = jest.fn();
+  const setMockAnyVar = jest.fn();
   const fakeEvent = { target: { value: "John Doe" } };
   handleInputUpdate(
     fakeEvent as React.ChangeEvent<HTMLInputElement>,
-    "name",
-    setNameMock,
-    undefined,
-    undefined,
-    undefined
+    setMockAnyVar
   );
-  expect(setNameMock).toHaveBeenCalledWith("John Doe");
-});
-
-test("updates the email when input changes", () => {
-  const setEmailMock = jest.fn();
-  const fakeEvent = { target: { value: "example@example.com" } };
-  handleInputUpdate(
-    fakeEvent as React.ChangeEvent<HTMLInputElement>,
-    "email",
-    undefined,
-    setEmailMock,
-    undefined,
-    undefined
-  );
-  expect(setEmailMock).toHaveBeenCalledWith("example@example.com");
-});
-
-test("updates the ticker when input changes", () => {
-  const setTickerMock = jest.fn();
-  const fakeEvent = { target: { value: "AAPL" } };
-  handleInputUpdate(
-    fakeEvent as React.ChangeEvent<HTMLInputElement>,
-    "ticker",
-    undefined,
-    undefined,
-    setTickerMock,
-    undefined
-  );
-  expect(setTickerMock).toHaveBeenCalledWith("AAPL");
-});
-
-test("updates the target price when input changes", () => {
-  const setTargetPriceMock = jest.fn();
-  const fakeEvent = { target: { value: "100" } };
-  handleInputUpdate(
-    fakeEvent as React.ChangeEvent<HTMLInputElement>,
-    "targetPrice",
-    undefined,
-    undefined,
-    undefined,
-    setTargetPriceMock
-  );
-  expect(setTargetPriceMock).toHaveBeenCalledWith(100);
+  expect(setMockAnyVar).toHaveBeenCalledWith("John Doe");
 });
