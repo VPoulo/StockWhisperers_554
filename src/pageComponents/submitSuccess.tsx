@@ -5,15 +5,23 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-/* Pop out modal telling sender that their message was sent
- */
-
-function SubmitSuccess() {
+function SubmitSuccess({ onClose }: { onClose: () => void }) {
+  const handleCloseWithReload = () => {
+    onClose();
+    window.location.reload();
+  };
   return (
-    <Dialog aria-labelledby="responsive-dialog-title" open={false}>
+    <Dialog
+      aria-labelledby="responsive-dialog-title"
+      open={true}
+      onClose={handleCloseWithReload}
+    >
       <DialogTitle id="responsive-dialog-title">Success!</DialogTitle>
       <DialogContent>
-        <DialogContentText>Your notification has been set!</DialogContentText>
+        <DialogContentText>
+          <p>Your notification has been set! </p>
+          <p>You may click anywhere to finish your submission.</p>
+        </DialogContentText>
       </DialogContent>
     </Dialog>
   );
