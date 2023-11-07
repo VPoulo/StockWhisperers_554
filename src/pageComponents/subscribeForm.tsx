@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { validTicker } from "src/util/util";
+import {
+  isBuyOrSell,
+  isEmail,
+  targetPriceIsNumber,
+  validTicker,
+} from "src/util/util";
 import {
   BuySellButtons,
   EmailField,
@@ -27,10 +32,10 @@ function SubscribeForm() {
   const formFull = () => {
     if (
       name.length > 0 &&
-      email.length > 0 &&
-      ticker.length > 0 &&
-      buyOrSell.length > 0 &&
-      targetPrice.length >= 0
+      isEmail(email) &&
+      validTicker(ticker.toUpperCase()) &&
+      isBuyOrSell(buyOrSell) &&
+      targetPriceIsNumber(targetPrice)
     )
       return true;
     return false;
@@ -41,9 +46,22 @@ function SubscribeForm() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!formFull() || !validTicker(ticker.toUpperCase())) {
+    if (!formFull()) {
       handleOpenSubmitError();
     } else {
+      fetch(`http://127.0.0.1:5000/insert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          ticker: ticker,
+          action: buyOrSell,
+          price: targetPrice,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
       handleOpenSubmitSuccess();
     }
   };
