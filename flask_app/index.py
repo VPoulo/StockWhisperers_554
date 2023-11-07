@@ -21,7 +21,7 @@ def insert():
     df.columns = df.columns.str.strip()
 
     # Trim all values in DF.
-    df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
 
     # Insert new entry
     new_entry = {
@@ -31,12 +31,12 @@ def insert():
         "action": action,
         "price": price,
     }
-    df = df.append(new_entry, ignore_index=True)
+    df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
 
     # Save dataframe as CSV by overwriting previous file.
     df.to_csv("../database/users.csv", index=False)
 
-    return True
+    return "ok", 200
 
 
 @app.route("/delete", methods=["DELETE"], strict_slashes=False)
