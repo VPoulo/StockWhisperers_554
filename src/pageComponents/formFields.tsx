@@ -1,4 +1,4 @@
-import { buttonStyleSelector, handleInputUpdate } from "src/util/util";
+import { ButtonStyleSelector, HandleInputUpdate } from "src/util/util";
 import SWButton from "./swButton";
 
 const buy: string = "Buy";
@@ -20,7 +20,7 @@ export const NameField = ({ setName }: { setName: stateActionString }) => {
         placeholder="Name"
         type="text"
         name={formName}
-        onChange={(event) => handleInputUpdate(event, setName)}
+        onChange={(event) => HandleInputUpdate(event, setName)}
         required
       />
       <p className="text-left ml-4">
@@ -39,7 +39,7 @@ export const EmailField = ({ setEmail }: { setEmail: stateActionString }) => {
         placeholder="Email Address"
         type="email"
         name={formEmail}
-        onChange={(event) => handleInputUpdate(event, setEmail)}
+        onChange={(event) => HandleInputUpdate(event, setEmail)}
         required
       />
       <p className="text-left ml-6">
@@ -62,7 +62,7 @@ export const TickerField = ({
         name={formTicker}
         type="text"
         placeholder="stock ticker"
-        onChange={(event) => handleInputUpdate(event, setTicker)}
+        onChange={(event) => HandleInputUpdate(event, setTicker)}
         maxLength={8}
         required
       />
@@ -86,7 +86,7 @@ export const BuySellButtons = ({
         onUpdate={updateParentState}
         buttonText={buy}
         className={
-          buttonStyleSelector(buyOrSell, buy) +
+          ButtonStyleSelector(buyOrSell, buy) +
           `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out
             duration-300`
         }
@@ -96,7 +96,7 @@ export const BuySellButtons = ({
         onUpdate={updateParentState}
         buttonText={sell}
         className={
-          buttonStyleSelector(buyOrSell, sell) +
+          ButtonStyleSelector(buyOrSell, sell) +
           `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out 
             duration-300`
         }
@@ -123,7 +123,7 @@ export const TargetPrice = ({
           min={0}
           placeholder="Target Price"
           required
-          onChange={(event) => handleInputUpdate(event, setTargetPrice)}
+          onChange={(event) => HandleInputUpdate(event, setTargetPrice)}
         />
       </div>
       <p className="mr-24">

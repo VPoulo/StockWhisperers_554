@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  isBuyOrSell,
-  isEmail,
-  targetPriceIsNumber,
-  validTicker,
-} from "src/util/util";
+import { SubFormFull } from "src/util/util";
 import {
   BuySellButtons,
   EmailField,
@@ -29,24 +24,12 @@ function SubscribeForm() {
   const handleOpenSubmitSuccess = () => setSubmitSuccess(true);
   const handleCloseSubmitSuccess = () => setSubmitSuccess(false);
 
-  const formFull = () => {
-    if (
-      name.length > 0 &&
-      isEmail(email) &&
-      validTicker(ticker.toUpperCase()) &&
-      isBuyOrSell(buyOrSell) &&
-      targetPriceIsNumber(targetPrice)
-    )
-      return true;
-    return false;
-  };
-
   const updateParentState = (option: string) => {
     setBuyOrSell(option);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!formFull()) {
+    if (!SubFormFull(name, email, ticker, buyOrSell, targetPrice)) {
       handleOpenSubmitError();
     } else {
       fetch(`http://127.0.0.1:5000/insert`, {
