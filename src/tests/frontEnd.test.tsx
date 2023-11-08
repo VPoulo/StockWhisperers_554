@@ -6,7 +6,7 @@ import SubOrUnsub, * as subOrUnsub from "src/pageComponents/subOrUnsub";
 import UnsubForm from "src/pageComponents/unsubForm";
 import SWButton from "src/pageComponents/swButton";
 import SubscribeForm from "src/pageComponents/subscribeForm";
-import { handleInputUpdate } from "src/util/util";
+import { HandleInputUpdate } from "src/util/util";
 
 test("Renders app without crashing", () => {
   render(<App />);
@@ -87,7 +87,7 @@ test("Triggers the form submission when the button is clicked", () => {
 test("updates the name when input changes", () => {
   const setMockAnyVar = jest.fn();
   const fakeEvent = { target: { value: "John Doe" } };
-  handleInputUpdate(
+  HandleInputUpdate(
     fakeEvent as React.ChangeEvent<HTMLInputElement>,
     setMockAnyVar
   );
