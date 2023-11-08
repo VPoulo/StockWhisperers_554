@@ -10,7 +10,7 @@ CORS(app)
 def insert():
     name = request.json["name"]
     email = request.json["email"]
-    ticker = request.json["ticker"]
+    ticker = str(request.json["ticker"]).upper()
     action = request.json["action"]
     price = request.json["price"]
     # Load file
@@ -41,15 +41,15 @@ def insert():
 @app.route("/delete", methods=["DELETE"], strict_slashes=False)
 def delete():
     email = request.json["email"]
-    ticker = request.json["ticker"]
+    ticker = str(request.json["ticker"]).upper()
     # Load file
     df = pd.read_csv("../database/users.csv")
 
     # Trim column headers
     df.columns = df.columns.str.strip()
 
-    # Trimp all values in DF.
-    df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    # Trim all values in DF.
+    df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
 
     # Create drop condition
     condition = (df["email"] == email) & (df["stock"] == ticker)
@@ -65,7 +65,7 @@ def delete():
     # Save dataframe as CSV by overwriting previous file.
     df.to_csv("../database/users.csv", index=False)
 
-    return True
+    return "ok", 200
 
 
 if __name__ == "__main__":
