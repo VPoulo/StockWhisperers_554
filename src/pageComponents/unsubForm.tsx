@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { EmailField, TickerField } from "./formFields";
 import SWButton from "./swButton";
-import { validTicker } from "src/util/util";
+import { UnsubFormFull } from "src/util/util";
+import SubmitError from "./submitError";
+import SubmitSuccess from "./submitSuccess";
 
 function UnsubForm() {
   const [email, setEmail] = useState("");
@@ -13,15 +15,20 @@ function UnsubForm() {
   const handleOpenSubmitSuccess = () => setSubmitSuccess(true);
   const handleCloseSubmitSuccess = () => setSubmitSuccess(false);
 
-  const formFull = () => {
-    if (email.length > 0 && ticker.length > 0) return true;
-    return false;
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!formFull() || !validTicker(ticker.toUpperCase())) {
+    if (!UnsubFormFull(email, ticker)) {
       handleOpenSubmitError();
     } else {
+      fetch(`http://127.0.0.1:5000/delete`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          ticker: ticker,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
       handleOpenSubmitSuccess();
     }
   };
@@ -46,7 +53,10 @@ function UnsubForm() {
           type="submit"
           buttonText="Submit"
           className="SW-Button mx-4 min-w-[150px]"
+          onClick={handleButtonClick}
         />
+        {submitError && <SubmitError onClose={handleCloseSubmitError} />}
+        {submitSuccess && <SubmitSuccess onClose={handleCloseSubmitSuccess} />}
       </div>
     </form>
   );
