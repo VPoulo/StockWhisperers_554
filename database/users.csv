@@ -1,4 +1,1 @@
-name,email,stock,price,action
-Vaughn Poulo,vpoulo@pdx.edu,NVDA,500,buy
-Alex Harris,aharris@pdx.edu,GOOGL,85,sell
-Sharon Oba,soba@pdx.edu,AAPL,200,sell
+name,email,stock,action,price

@@ -1,112 +1,90 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { SubFormFull } from "src/util/util";
+import {
+  BuySellButtons,
+  EmailField,
+  NameField,
+  TargetPrice,
+  TickerField,
+} from "./formFields";
+import SubmitError from "./submitError";
 import SWButton from "./swButton";
+import SubmitSuccess from "./submitSuccess";
 
-const buy: string = "Buy";
-const sell: string = "Sell";
-let buyOrSell: string = "";
+function SubscribeForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [ticker, setTicker] = useState("");
+  const [buyOrSell, setBuyOrSell] = useState("");
+  const [targetPrice, setTargetPrice] = useState("");
+  const [submitError, setSubmitError] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const handleOpenSubmitError = () => setSubmitError(true);
+  const handleCloseSubmitError = () => setSubmitError(false);
+  const handleOpenSubmitSuccess = () => setSubmitSuccess(true);
+  const handleCloseSubmitSuccess = () => setSubmitSuccess(false);
 
-export const SubscribeForm = () => {
-  const [activeOption, setCurrentOption] = useState("Reset");
   const updateParentState = (option: string) => {
-    setCurrentOption(option);
-    buyOrSell = option;
+    setBuyOrSell(option);
   };
-  const buttonStyleSelector = (toChange: string) => {
-    return activeOption === toChange ? "SW-Button-Active " : "SW-Button ";
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!SubFormFull(name, email, ticker, buyOrSell, targetPrice)) {
+      handleOpenSubmitError();
+    } else {
+      fetch(`http://127.0.0.1:5000/insert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          ticker: ticker,
+          action: buyOrSell,
+          price: targetPrice,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
+      handleOpenSubmitSuccess();
+    }
+  };
+
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const formEvent = new Event("submit", {
+      bubbles: true,
+    }) as unknown as React.FormEvent<HTMLFormElement>;
+    handleSubmit(formEvent);
   };
 
   return (
     <>
-      <form action="">
+      <form noValidate autoComplete="off">
         <div className="flex justify-center mt-8">
-          <div>
-            <input
-              className="mr-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none
-                  text-black"
-              placeholder="Name"
-              type="text"
-              name="name"
-              required
-            />
-            <p className="text-left ml-4">
-              <span className="text-left text-red-500">*</span>Required
-            </p>
-          </div>
-          <div>
-            <input
-              className="ml-2 pl-3 pr-3 py-3 rounded-lg text-xl outline-none 
-                  text-black"
-              placeholder="Email Address"
-              type="email"
-              name="email"
-              required
-            />
-            <p className="text-left ml-4">
-              <span className="text-left text-red-500">*</span>Required
-            </p>
-          </div>
+          <NameField setName={setName} />
+          <EmailField setEmail={setEmail} />
         </div>
-        <div className="mx-4 mt-5">
-          <input
-            className="mt-5 w-auto min-w-[435px] rounded-lg p-3 outline-none
-            text-black"
-            name="stockTicker"
-            type="text"
-            placeholder="Enter stock ticker (APPL, NVDA, etc.)"
-            required
-          />
-          <p className="text-left ml-12">
-            <span className="text-red-500">*</span>Required
-          </p>
-        </div>
-        <div className="flex justify-center mt-5">
-          <SWButton
-            onUpdate={updateParentState}
-            buttonText={buy}
-            className={
-              buttonStyleSelector(buy) +
-              `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out
-              duration-300`
-            }
-            type="button"
-          />
-          <SWButton
-            onUpdate={updateParentState}
-            buttonText={sell}
-            className={
-              buttonStyleSelector(sell) +
-              `mx-4 w-auto min-w-[200px] h-10 transition ease-in-out 
-              duration-300`
-            }
-            type="button"
-          />
-        </div>
-        <div className="flex justify-center -ml-9 mt-5">
-          <div className="text-5xl mr-4">$</div>
-          <input
-            className="-ml-1 mt-1.5 w-auto min-w-[100px] rounded-lg p-3 outline-none
-              text-black"
-            name="stockTicker"
-            type="number"
-            min={0}
-            placeholder="Enter target price"
-            required
-          />
-        </div>
-        <p className="mr-24">
-          <span className="text-red-500">*</span>Required
-        </p>
-        <div className="flex"></div>
+        <TickerField setTicker={setTicker} />
+        <BuySellButtons
+          buyOrSell={buyOrSell}
+          updateParentState={updateParentState}
+        />
+        <TargetPrice setTargetPrice={setTargetPrice} />
         <div className="mt-4">
           <SWButton
             type="submit"
             buttonText="Submit"
             className="SW-Button mx-4 min-w-[150px]"
+            onClick={handleButtonClick}
           />
+          {submitError && <SubmitError onClose={handleCloseSubmitError} />}
+          {submitSuccess && (
+            <SubmitSuccess onClose={handleCloseSubmitSuccess} />
+          )}
         </div>
       </form>
     </>
   );
-};
+}
 
 export default SubscribeForm;

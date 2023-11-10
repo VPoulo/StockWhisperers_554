@@ -1,4 +1,4 @@
-export const AboutApp = () => {
+function AboutApp() {
   return (
     <>
       <p className="text-2xl">
@@ -19,6 +19,6 @@ export const AboutApp = () => {
       </p>
     </>
   );
-};
+}
 
 export default AboutApp;

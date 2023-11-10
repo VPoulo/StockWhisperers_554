@@ -1,42 +1,64 @@
+import { useState } from "react";
+import { EmailField, TickerField } from "./formFields";
 import SWButton from "./swButton";
+import { UnsubFormFull } from "src/util/util";
+import SubmitError from "./submitError";
+import SubmitSuccess from "./submitSuccess";
 
-export const UnsubForm = () => {
+function UnsubForm() {
+  const [email, setEmail] = useState("");
+  const [ticker, setTicker] = useState("");
+  const [submitError, setSubmitError] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const handleOpenSubmitError = () => setSubmitError(true);
+  const handleCloseSubmitError = () => setSubmitError(false);
+  const handleOpenSubmitSuccess = () => setSubmitSuccess(true);
+  const handleCloseSubmitSuccess = () => setSubmitSuccess(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!UnsubFormFull(email, ticker)) {
+      handleOpenSubmitError();
+    } else {
+      fetch(`http://127.0.0.1:5000/delete`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          ticker: ticker,
+        }),
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
+      handleOpenSubmitSuccess();
+    }
+  };
+
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const formEvent = new Event("submit", {
+      bubbles: true,
+    }) as unknown as React.FormEvent<HTMLFormElement>;
+    handleSubmit(formEvent);
+  };
+
   return (
     <form action="">
       <div className="mt-4">
-        <input
-          className="pl-3 pr-3 py-3 rounded-lg text-xl outline-none text-black"
-          placeholder="Email Address"
-          type="email"
-          name="email"
-          required
-        />
-        <p className="text-left ml-32">
-          <span className="text-red-500">*</span>Required
-        </p>
+        <EmailField setEmail={setEmail} />
+        <TickerField setTicker={setTicker} />
       </div>
-      <div className="flex justify-center mx-4 mt-5">
-        <input
-          className="w-auto min-w-[435px] rounded-lg p-3 outline-none
-            text-black"
-          name="stockTicker"
-          type="text"
-          placeholder="Enter stock ticker (APPL, NVDA, etc.)"
-          required
-        />
-      </div>
-      <p className="text-left ml-10">
-        <span className="text-red-500">*</span>Required
-      </p>
+
       <div className="mt-4">
         <SWButton
           type="submit"
           buttonText="Submit"
           className="SW-Button mx-4 min-w-[150px]"
+          onClick={handleButtonClick}
         />
+        {submitError && <SubmitError onClose={handleCloseSubmitError} />}
+        {submitSuccess && <SubmitSuccess onClose={handleCloseSubmitSuccess} />}
       </div>
     </form>
   );
-};
-<></>;
+}
 export default UnsubForm;
