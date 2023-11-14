@@ -89,8 +89,10 @@ class Database:
         return len(idx_mail)
 
 
-
-
+test = Database()
+test.extract_api_key()
+test.getStockDaily()
+test.createDailyEmailList()
 
 
 
