@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-function SubmitSuccess({ onClose }: { onClose: () => void }) {
+export function SubscribeSuccess({ onClose }: { onClose: () => void }) {
   const handleCloseWithReload = () => {
     onClose();
     window.location.reload();
@@ -16,7 +16,7 @@ function SubmitSuccess({ onClose }: { onClose: () => void }) {
       open={true}
       onClose={handleCloseWithReload}
     >
-      <DialogTitle id="responsive-dialog-title">Success!</DialogTitle>
+      <DialogTitle id="responsive-dialog-title">Subscribe Success!</DialogTitle>
       <DialogContent>
         <DialogContentText>
           <p>Your notification has been set! </p>
@@ -27,4 +27,26 @@ function SubmitSuccess({ onClose }: { onClose: () => void }) {
   );
 }
 
-export default SubmitSuccess;
+export function UnsubscribeSuccess({ onClose }: { onClose: () => void }) {
+  const handleCloseWithReload = () => {
+    onClose();
+    window.location.reload();
+  };
+  return (
+    <Dialog
+      aria-labelledby="responsive-dialog-title"
+      open={true}
+      onClose={handleCloseWithReload}
+    >
+      <DialogTitle id="responsive-dialog-title">
+        Unsubscribe Success!
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <p>You have been unsubscribed from that stock!</p>
+          <p>You may click anywhere to finish your submission.</p>
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
+  );
+}

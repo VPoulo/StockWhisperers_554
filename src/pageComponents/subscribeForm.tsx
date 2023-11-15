@@ -9,7 +9,8 @@ import {
 } from "./formFields";
 import SubmitError from "./submitError";
 import SWButton from "./swButton";
-import SubmitSuccess from "./submitSuccess";
+import { SubscribeSuccess } from "./submitSuccess";
+import { HandleSubscribe } from "src/util/frontendREST/handleSubscribe";
 
 function SubscribeForm() {
   const [name, setName] = useState("");
@@ -28,33 +29,21 @@ function SubscribeForm() {
     setBuyOrSell(option);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!SubFormFull(name, email, ticker, buyOrSell, targetPrice)) {
-      handleOpenSubmitError();
-    } else {
-      fetch(`http://127.0.0.1:5000/insert`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          ticker: ticker,
-          action: buyOrSell,
-          price: targetPrice,
-        }),
-      })
-        .then((response) => response.json())
-        .catch((error) => console.log(error));
-      handleOpenSubmitSuccess();
-    }
-  };
-
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const formEvent = new Event("submit", {
       bubbles: true,
     }) as unknown as React.FormEvent<HTMLFormElement>;
-    handleSubmit(formEvent);
+    HandleSubscribe(
+      formEvent,
+      handleOpenSubmitError,
+      handleOpenSubmitSuccess,
+      name,
+      email,
+      ticker,
+      buyOrSell,
+      targetPrice
+    );
   };
 
   return (
@@ -79,7 +68,7 @@ function SubscribeForm() {
           />
           {submitError && <SubmitError onClose={handleCloseSubmitError} />}
           {submitSuccess && (
-            <SubmitSuccess onClose={handleCloseSubmitSuccess} />
+            <SubscribeSuccess onClose={handleCloseSubmitSuccess} />
           )}
         </div>
       </form>
