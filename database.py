@@ -10,11 +10,10 @@ import json
 class Database:
 
     def __init__(self):
-        self.__USER_FILE = "./database/users.csv"  # Currently holds user data
+        self.__USER_FILE = "../database/users.csv"  # Currently holds user data
         self.__BASH_PATH = os.path.expanduser('~/.bash_profile')
-        self.__STOCK_CSV = "./database/stocks.csv"
-        self.__STOCK_JSON = "./database/stocks.json"  # Currently holds stock 
-        self.__NOTIFICATION_CSV="./database/notification.csv"
+        self.__STOCK_CSV = "../database/stocks.csv"
+        self.__NOTIFICATION_CSV="../database/notification.csv"
         self.__API_KEY = ""
         self.df_users = pd.read_csv(self.__USER_FILE, delimiter=',')  
         self.df_stocks = {}     
@@ -48,9 +47,6 @@ class Database:
             data = response.json()
             self.df_stocks = pd.DataFrame(data['results'], columns=['T','v','vw','o','c','h','l','t','n'])
             self.df_stocks.to_csv(self.__STOCK_CSV, index=False)
-            with open(self.__STOCK_JSON, 'w') as json_file:
-                json.dump(data, json_file, indent=4)
-                print(f"Data saved successfully to {self.__STOCK_JSON}")
         else:
             print(f"Request failed with status code {response.status_code}")
 
