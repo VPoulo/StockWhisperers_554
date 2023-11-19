@@ -20,7 +20,7 @@ password = config('PASSWORD')
 
 # Read one line of CSV at a time and call email function. 
 def main():
-    with open('info.csv', newline='') as file:
+    with open("../database/notification.csv", newline='') as file:
         emailList = csv.reader(file)
         for row in emailList:
             sendEmail(row)
