@@ -8,10 +8,10 @@ CORS(app)
 
 @app.route("/insert", methods=["POST"], strict_slashes=False)
 def insert():
-    name = request.json["name"]
-    email = request.json["email"]
+    name = str(request.json["name"]).lower()
+    email = str(request.json["email"]).lower()
     ticker = str(request.json["ticker"]).upper()
-    action = request.json["action"]
+    action = str(request.json["action"]).lower()
     price = request.json["price"]
     # Load file
     df = pd.read_csv("../database/users.csv")
@@ -40,7 +40,7 @@ def insert():
 
 @app.route("/delete", methods=["DELETE"], strict_slashes=False)
 def delete():
-    email = request.json["email"]
+    email = str(request.json["email"]).lower()
     ticker = str(request.json["ticker"]).upper()
     # Load file
     df = pd.read_csv("../database/users.csv")
