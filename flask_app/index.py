@@ -1,10 +1,12 @@
 from flask import Flask, request
 from flask_cors import CORS
 import pandas as pd
+import os
 
 app = Flask(__name__)
 CORS(app)
 
+__USERS_PATH = "../database/users.csv"
 
 @app.route("/insert", methods=["POST"], strict_slashes=False)
 def insert():
@@ -14,7 +16,7 @@ def insert():
     action = str(request.json["action"]).lower()
     price = request.json["price"]
     # Load file
-    df = pd.read_csv("../database/users.csv")
+    df = pd.read_csv(__USERS_PATH)
 
     # Trim column headers
     df.columns = df.columns.str.strip()
@@ -33,7 +35,7 @@ def insert():
     df.loc[len(df)] = new_entry
 
     # Save dataframe as CSV by overwriting previous file.
-    df.to_csv("../database/users.csv", index=False)
+    df.to_csv(__USERS_PATH, index=False)
 
     return "ok", 200
 
@@ -43,7 +45,7 @@ def delete():
     email = str(request.json["email"]).lower()
     ticker = str(request.json["ticker"]).upper()
     # Load file
-    df = pd.read_csv("../database/users.csv")
+    df = pd.read_csv(__USERS_PATH)
 
     # Trim column headers
     df.columns = df.columns.str.strip()
