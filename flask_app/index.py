@@ -8,6 +8,7 @@ CORS(app)
 
 __USERS_PATH = "../database/users.csv"
 
+
 @app.route("/insert", methods=["POST"], strict_slashes=False)
 def insert():
     name = str(request.json["name"]).lower()
