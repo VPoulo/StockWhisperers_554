@@ -66,7 +66,6 @@ class Database:
     def compareStock(self, ticker, tgt_price, action):
         self.getStockCsv()
         close_price = self.df_stocks.loc[ticker]['c']
-
         if action == 'buy':
             if close_price < tgt_price:
                 return close_price
@@ -79,14 +78,15 @@ class Database:
     def createDailyEmailList(self):
         idx_mail = pd.DataFrame(columns=['name', 'email', 'stock', 'close'])
         self.getStockCsv()
+        close = 0.0
         max_user = len(self.df_users)
         for i in range(0, max_user):
             name, email, stock, price, action = self.getUserAction(i)
-            close = self.compareStock(stock, price, action) != 0
+            close = self.compareStock(stock, price, action)
             if close != 0:
                 df2 = pd.DataFrame([[name, email, stock, close]], columns=[
-                                   'name', 'email', 'stock', 'close'])
-                idx_mail = pd.concat([idx_mail, df2])
+                                   'name', 'email', 'stock', 'close'])               
+                idx_mail = idx_mail.copy() if df2.empty else df2.copy() if idx_mail.empty else pd.concat([idx_mail, df2])
 
         idx_mail.to_csv(self.__NOTIFICATION_CSV, header=False, index=False)
         return len(idx_mail)
